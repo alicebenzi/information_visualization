@@ -2,11 +2,11 @@
 MSAN 622 Information Visualization
 ==================================
 
-|  **Name:** | Sophie Engle           |
+|  **Name:** | Alice Benziger           |
 |-----------:|:-----------------------|
-| **Email:** | <sjengle@cs.usfca.edu> |
-|   **Web:** | <http://msan622.github.io/spring-2015-msan622> |
+| **Email:** | <apbenziger@dons.usfca.edu> |
+|   **Web:** | <https://github.com/alicebenzi/information_visualization> |
 
 ## About Me ##
 
-I am a professor at the [University of San Francisco](http://www.usfca.edu/). I am the graduate director for the Masters of Science in Computer Science program, and teach courses for the Department of Computer Science and Masters of Science in Analytics program. I have a stubborn yet adorable corgi named Casablanca (after the movie).
+I am a student at the [University of San Francisco](http://www.usfca.edu/). 
