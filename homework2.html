@@ -1,23 +1,90 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>MSAN 622 Information Visualization</title>
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+<style type="text/css">
+    body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+</style>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+
+<!-- Fixed Navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">MSN 622</a>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/information_visualization/#homework">Homework</a></li>
+                <li><a href="/information_visualization/#project">Project</a></li>
+                <li><a href="/information_visualization/#participation">Participation</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/information_visualization/#about">About</a></li>
+                <li><a href="/information_visualization/#contact">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>Homework 2: Multivariate Data Visualisation</h2>
+
+       
+    </div>
+</div>
 <style>
 
 body {
-  font: 10px sans-serif;
+  font: 15px sans-serif;
 }
 
-.axis path,
-.axis line {
+svg#plot1 body {
+  font: 15px sans-serif;
+}
+
+svg#plot1 .axis path,
+svg#plot1 .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
+  font: 30px;
 }
 
-.dot {
+svg#plot1 .dot {
   stroke: #000;
 }
 
-.tooltip {
+svg#plot1 .tooltip {
   position: absolute;
   width: 200px;
   height: 28px;
@@ -26,114 +93,597 @@ body {
 
 </style>
 <body>
+<div id="chart1"></div>
+<div id="chart2"></div>
+<div id="chart3"></div>
+</body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
+function plot1(){
+  var margin1 = {top: 50, right: 40, bottom: 40, left: 40},
+      width1 = 960 - margin1.left - margin1.right,
+      height1 = 500 - margin1.top - margin1.bottom;
 
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+  var x1 = d3.scale.linear()
+      .range([0, width1]);
 
-var x = d3.scale.linear()
-    .range([0, width]);
+  var y1 = d3.scale.linear()
+      .range([height1, 0]);
 
-var y = d3.scale.linear()
-    .range([height, 0]);
+  var color1 = d3.scale.category10();
 
-var color = d3.scale.category20();
+  var xAxis1 = d3.svg.axis()
+      .scale(x1)
+      .orient("bottom");
 
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
-
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left");
+  var yAxis1 = d3.svg.axis()
+      .scale(y1)
+      .orient("left");
 
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.bottom + ")");
+  var svg = d3.select("#chart1").append("svg")
+      .attr("id","plot1")
+      .attr("width", width1 + margin1.left + margin1.right)
+      .attr("height", height1 + margin1.top + margin1.bottom)
+    .append("g")
+      .attr("transform", "translate(" + margin1.left + "," + margin1.bottom + ")");
 
-var tooltip = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+      svg.append("text")
+         .attr("x", (width1/2.4))             
+         .attr("y", (margin1.top-50))
+         .attr("text-anchor", "left")  
+         .style("font-size", "20px") 
+         // .style("text-decoration", "underline")  
+         .text("Bubble Chart");
 
-d3.csv("state.x77.csv", function(error, data) {
-  data.forEach(function(d) {
-    d.lifeExp = +d["Life.Exp"];
-    d.Income = +d.Income;
+  var tooltip = d3.select("#chart1").append("g")
+      .attr("id","plot1")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
+
+  d3.csv("state.x77.csv", function(error, data) {
+    data.forEach(function(d) {
+      d.lifeExp = +d["Life.Exp"];
+      d.Income = +d.Income;
+    });
+
+    x1.domain(d3.extent(data, function(d) { return d.lifeExp; })).nice();
+    y1.domain(d3.extent(data, function(d) { return d.Income; })).nice();
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height1 + ")")
+        .call(xAxis1)
+      .append("text")
+        .attr("class", "label")
+        .attr("x", width1)
+        .attr("y", -6)
+        .style("text-anchor", "end")
+        .text("Life Expectancy");
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis1)
+      .append("text")
+        .attr("class", "label")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("Income")
+
+    svg.selectAll(".dot")
+        .data(data)
+      .enter().append("circle")
+        .attr("class", "dot")
+        .attr("fill-opacity", 0.7)
+        .attr("r", function(d){ return Math.sqrt(d["Population"]/25);})
+        .attr("cx", function(d) { return x1(d.lifeExp); })
+        .attr("cy", function(d) { return y1(d.Income); })
+        .style("fill", function(d) { return color1(d["state.region"]); })
+        .on("mouseover", function(d) {
+            tooltip.transition()
+                 .duration(200)
+                 .style("opacity", 1);
+            tooltip.html(d["state.name"]+"(" +d["state.region"] +")"+  "<br/> (Population:" + d["Population"] + ")")
+                 .style("left", (d3.event.pageX + 5) + "px")
+                 .style("top", (d3.event.pageY - 28) + "px");
+            
+        })
+        .on("mouseout", function(d) {
+            tooltip.transition()
+                 .duration(500)
+            
+        });
+
+    var legend = svg.selectAll(".legend")
+        .data(color1.domain())
+      .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+    legend.append("rect")
+        .attr("x", width1 - 18)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", color1);
+
+    legend.append("text")
+        .attr("x", width1 - 24)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(function(d) { return d; });
+
   });
-
-  x.domain(d3.extent(data, function(d) { return d.lifeExp; })).nice();
-  y.domain(d3.extent(data, function(d) { return d.Income; })).nice();
-
-  svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis)
-    .append("text")
-      .attr("class", "label")
-      .attr("x", width)
-      .attr("y", -6)
-      .style("text-anchor", "end")
-      .text("Life Expectancy");
-
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-    .append("text")
-      .attr("class", "label")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("Income")
-
-  svg.selectAll(".dot")
-      .data(data)
-    .enter().append("circle")
-      .attr("class", "dot")
-      .attr("fill-opacity", 0.7)
-      .attr("r", function(d){ return Math.sqrt(d["Population"]/25);})
-      .attr("cx", function(d) { return x(d.lifeExp); })
-      .attr("cy", function(d) { return y(d.Income); })
-      .style("fill", function(d) { return color(d["state.region"]); })
-      .on("mouseover", function(d) {
-          tooltip.transition()
-               .duration(200)
-               .style("opacity", 1);
-          tooltip.html(d["state.name"]+"(" +d["state.region"] +")"+  "<br/> (Population:" + d["Population"] + ")")
-               .style("left", (d3.event.pageX + 5) + "px")
-               .style("top", (d3.event.pageY - 28) + "px");
-          
-      })
-      .on("mouseout", function(d) {
-          tooltip.transition()
-               .duration(500)
-          
-      });
-
-  var legend = svg.selectAll(".legend")
-      .data(color.domain())
-    .enter().append("g")
-      .attr("class", "legend")
-      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-  legend.append("rect")
-      .attr("x", width - 18)
-      .attr("width", 18)
-      .attr("height", 18)
-      .style("fill", color);
-
-  legend.append("text")
-      .attr("x", width - 24)
-      .attr("y", 9)
-      .attr("dy", ".35em")
-      .style("text-anchor", "end")
-      .text(function(d) { return d; });
-
-});
+}
+plot1();
 
 </script>
+
+<style>
+
+vg#plot2 svg {
+  font: 10px sans-serif;
+  padding: 10px;
+}
+
+svg#plot2 .axis,
+svg#plot2  .frame {
+  shape-rendering: crispEdges;
+}
+
+svg#plot2  .axis line {
+  stroke: #ddd;
+}
+
+svg#plot2  .axis path {
+  display: none;
+}
+
+svg#plot2  .frame {
+  fill: none;
+  stroke: #aaa;
+}
+
+svg#plot2  circle {
+  fill-opacity: .7;
+}
+
+svg#plot2  circle.hidden {
+  fill: #ccc !important;
+}
+
+svg#plot2  .extent {
+  fill: #000;
+  fill-opacity: .125;
+  stroke: #fff;
+}
+
+</style>
+<body>
+
+<script>
+
+function plot2(){
+
+  var width2 = 980,
+      size2 = 180,
+      padding2 = 40.5;
+
+  var x2 = d3.scale.linear()
+      .range([padding2 / 2, size2 - padding2 / 2]);
+
+  var y2 = d3.scale.linear()
+      .range([size2 - padding2 / 2, padding2 / 2]);
+
+  var xAxis2 = d3.svg.axis()
+      .scale(x2)
+      .orient("bottom")
+      .ticks(5);
+
+  var yAxis2 = d3.svg.axis()
+      .scale(y2)
+      .orient("left")
+      .ticks(5);
+
+  var color2 = d3.scale.category10();
+
+  d3.csv("state.x77.csv", function(error, data) {
+    var inputMatrix = {},
+        inputs = d3.keys(data[0]).filter(function(d) { return d === "Income" || d === "Illiteracy" || d === "Life.Exp" || d === "HS.Grad"; }),
+        n = inputs.length;
+
+    inputs.forEach(function(inputs) {
+      inputMatrix[inputs] = d3.extent(data, function(d) { return d[inputs]; });
+    });
+
+    xAxis2.tickSize(size2*n)
+    .tickFormat(d3.format(",.2s"));;
+    yAxis2.tickSize( -size2*n)
+    .tickFormat(d3.format(",.2s"));;
+
+    var brush = d3.svg.brush()
+        .x(x2)
+        .y(y2)
+        .on("brushstart", brushstart)
+        .on("brush", brushmove)
+        .on("brushend", brushend);
+
+    var svg = d3.select("#chart2").append("svg")
+        .attr("id","plot2")
+        .attr("width", size2 * n + padding2)
+        .attr("height", size2 * n + padding2)
+      .append("g")
+        .attr("transform", "translate(" + padding2 + "," + padding2 / 2 + ")");
+
+    svg.selectAll(".x.axis")
+        .data(inputs)
+      .enter().append("g")
+        .attr("class", "x axis")
+        .attr("transform", function(d, i) { return "translate(" + (n - i - 1) * size2 + ",0)"; })
+        .each(function(d) { x2.domain(inputMatrix[d]); d3.select(this).call(xAxis2); });
+        // .attr("transform", function(d) {
+        //           return "rotate(90)" 
+        //           });
+     
+
+    svg.selectAll(".y.axis")
+        .data(inputs)
+      .enter().append("g")
+        .attr("class", "y axis")
+        .attr("transform", function(d, i) { return "translate(0," + i * size2  + ")"; })
+        .each(function(d) { y2.domain(inputMatrix[d]); d3.select(this).call(yAxis2); });
+
+
+
+    var legend = svg.selectAll(".legend")
+        .data(color2.domain())
+      .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+    legend.append("rect")
+        .attr("x", size2 + padding2/2)
+        .attr("width", 10)
+        .attr("height", 10)
+        .style("fill", color2);
+
+    legend.append("text")
+        .attr("x", size2 -180)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(function(d) { return d; });
+
+
+    var cell = svg.selectAll(".cell")
+        .data(cross(inputs, inputs))
+      .enter().append("g")
+        .attr("class", "cell")
+        .attr("transform", function(d) { return "translate(" + (n - d.i - 1) * size2 + "," + d.j * size2 + ")"; })
+        .each(plot);
+    svg.append("text")
+         .attr("x", (width2/4))             
+         .attr("y", (size2/15))
+         .attr("text-anchor", "left")  
+         .style("font-size", "20px") 
+         // .style("text-decoration", "underline")  
+         .text("Scatter-plot Matrix");
+
+    // Titles for the diagonal.
+    cell.filter(function(d) { return d.i === d.j; }).append("text")
+        .attr("x", padding2)
+        .attr("y", padding2)
+        .attr("dy", ".71em")
+        .text(function(d) { return d.x; });
+
+    cell.call(brush);
+
+    function plot(p) {
+      var cell = d3.select(this);
+
+      x2.domain(inputMatrix[p.x]);
+      y2.domain(inputMatrix[p.y]);
+
+      cell.append("rect")
+          .attr("class", "frame")
+          .attr("x", padding2 / 2)
+          .attr("y", padding2 / 2)
+          .attr("width", size2 - padding2)
+          .attr("height", size2 - padding2);
+
+      cell.selectAll("circle")
+          .data(data)
+        .enter().append("circle")
+          .attr("cx", function(d) { return x2(d[p.x]); })
+          .attr("cy", function(d) { return y2(d[p.y]); })
+          .attr("r", 3)
+          .style("fill", function(d) { return color2(d["state.region"]); });
+    }
+
+    var brushCell;
+
+    // Clear the previously-active brush, if any.
+    function brushstart(p) {
+      if (brushCell !== this) {
+        d3.select(brushCell).call(brush.clear());
+        x2.domain(inputMatrix[p.x]);
+        y2.domain(inputMatrix[p.y]);
+        brushCell = this;
+      }
+    }
+
+    // Highlight the selected circles.
+    function brushmove(p) {
+      var e = brush.extent();
+      svg.selectAll("circle").classed("hidden", function(d) {
+        return e[0][0] > d[p.x] || d[p.x] > e[1][0]
+            || e[0][1] > d[p.y] || d[p.y] > e[1][1];
+      });
+    }
+
+    // If the brush is empty, select all circles.
+    function brushend() {
+      if (brush.empty()) svg.selectAll(".hidden").classed("hidden", false);
+    }
+
+    function cross(a, b) {
+      var c = [], n = a.length, m = b.length, i, j;
+      for (i = -1; ++i < n;) for (j = -1; ++j < m;) c.push({x: a[i], i: i, y: b[j], j: j});
+      return c;
+    }
+
+    d3.select(self.frameElement).style("height", size2 * n + padding2 + 20 + "px");
+  });
+
+}
+plot2();
+
+</script>
+
+<style>
+
+svg {
+  font: 10.5px sans-serif;
+}
+
+svg#plot3 .background path {
+  fill: none;
+  stroke: #ccc;
+  stroke-opacity: .4;
+  shape-rendering: crispEdges;
+}
+
+svg#plot3 .foreground path {
+  fill: none;
+  /*stroke: steelblue;*/
+  stroke-opacity: .7;
+}
+
+svg#plot3 .brush .extent {
+  fill-opacity: .3;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+svg#plot3 .axis line,
+svg#plot3 .axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+svg#plot3 .axis text {
+  text-shadow: 0 1px 0 #fff;
+  cursor: move;
+}
+
+</style>
+<body>
+<script>
+
+function plot3(){
+
+  var m = [80, 20, 20, 20],
+      w = 960 - m[1] - m[3],
+      h = 500 - m[0] - m[2];
+
+
+  var x3 = d3.scale.ordinal().rangePoints([0, w], 1),
+      y3 = {},
+      dragging = {};
+
+  var line = d3.svg.line(),
+      axis3 = d3.svg.axis().orient("left"),
+      background,
+      foreground;
+
+  var svg = d3.select("#chart3").append("svg")
+      .attr("id","plot3")
+      .attr("width", w + m[1] + m[3])
+      .attr("height", h + m[0] + m[2])
+    .append("g")
+      .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+  var color3 = d3.scale.category10();
+
+
+  d3.csv("state.x77.csv", function(error, data) {
+
+
+   x3.domain(dimensions = d3.keys(data[0]).filter(function(d) {
+
+    if(d === "state.abb" || d === "state.name" || d === "state.division" || d === "Frost" || d === "Area" || d === "Population") return false;
+
+    if(d === "state.region") {
+        y3[d] = d3.scale.ordinal()
+          .domain(data.map(function(p) { return p[d]; }))
+          .rangePoints([h, 0]);
+
+    }
+    else {
+        y3[d] = d3.scale.linear()
+          .domain(d3.extent(data, function(p) { return +p[d]; }))
+          .range([h, 0]);
+    }
+
+    return true;
+}));
+
+
+    // Add grey background lines for context.
+    background = svg.append("g")
+        .attr("class", "background")
+      .selectAll("path")
+        .data(data)
+      .enter().append("path")
+        .attr("d", path);
+
+    // Add blue foreground lines for focus.
+    foreground = svg.append("g")
+        .attr("class", "foreground")
+      .selectAll("path")
+        .data(data)
+      .enter().append("path")
+        .attr("d", path)
+        .attr("stroke", function(d) { return color3(d["state.region"]); });
+;
+
+
+
+    // Add a group element for each dimension.
+    var g = svg.selectAll(".dimension")
+        .data(dimensions)
+      .enter().append("g")
+        .attr("class", "dimension")
+        .attr("transform", function(d) { return "translate(" + x3(d) + ")"; })
+
+        // .style("fill",color(d["state.region"]))
+        .call(d3.behavior.drag()
+          .on("dragstart", function(d) {
+            dragging[d] = this.__origin__ = x(d);
+            background.attr("visibility", "hidden");
+          })
+          .on("drag", function(d) {
+            dragging[d] = Math.min(w, Math.max(0, this.__origin__ += d3.event.dx));
+            foreground.attr("d", path);
+            dimensions.sort(function(a, b) { return position(a) - position(b); });
+            x3.domain(dimensions);
+            g.attr("transform", function(d) { return "translate(" + position(d) + ")"; })
+          })
+          .on("dragend", function(d) {
+            delete this.__origin__;
+            delete dragging[d];
+            transition(d3.select(this)).attr("transform", "translate(" + x3(d) + ")");
+            transition(foreground)
+                .attr("d", path);
+            background
+                .attr("d", path)
+                .transition()
+                .delay(50)
+                .duration(0)
+                .attr("visibility", null);
+          }));
+
+    // Add an axis and title.
+    g.append("g")
+        .attr("class", "axis")
+        .each(function(d) { d3.select(this).call(axis3.scale(y3[d])); })
+      .append("text")
+        .attr("text-anchor", "middle")
+        .attr("y", -9)
+        .text(String);
+
+    // Add and store a brush for each axis.
+    g.append("g")
+        .attr("class", "brush")
+        .each(function(d) { d3.select(this).call(y3[d].brush = d3.svg.brush().y(y3[d]).on("brushstart", brushstart).on("brush", brush)); })
+      .selectAll("rect")
+        .attr("x", -8)
+        .attr("width", 16);
+  });
+ svg.append("text")
+         .attr("x", (w/3))             
+         .attr("y", (-30))
+         .attr("text-anchor", "left")  
+         .style("font-size", "20px") 
+         // .style("text-decoration", "underline")  
+         .text("Parallel Coordinates");
+
+  function position(d) {
+    var v = dragging[d];
+    return v == null ? x3(d) : v;
+  }
+
+  function transition(g) {
+    return g.transition().duration(500);
+  }
+
+  // Returns the path for a given data point.
+  function path(d) {
+    return line(dimensions.map(function(p) { return [position(p), y3[p](d[p])]; }));
+  }
+
+  // When brushing, don’t trigger axis dragging.
+  function brushstart() {
+    d3.event.sourceEvent.stopPropagation();
+  }
+
+  // Handles a brush event, toggling the display of foreground lines.
+  function brush() {
+    var actives = dimensions.filter(function(p) { return !y3[p].brush.empty(); }),
+        extents = actives.map(function(p) { return y3[p].brush.extent(); });
+    foreground.style("display", function(d) {
+      return actives.every(function(p, i) {
+        return extents[i][0] <= d[p] && d[p] <= extents[i][1];
+      }) ? null : "none";
+    });
+  }
+
+}
+
+plot3();
+
+</script>
+</div>
+
+
+<div class="container">
+<h1>Functionality</h1>
+
+  <p style ="font-size:18px"> Basic functionality </p>
+  <p style ="font-size:15px"> Bubble chart </p>
+  <ul>
+    <li> The first graph is a bubble plot of Income Vs Life Expectancy across different states in the US. </li>
+    <li> The size of the bubble is representative of the population of a particular state. </li>
+    <li> The bubbles are colored by region as denoted in the legend. Some level of opacity is added to the bubbles as there are many overlapping bubbles</li>
+    <li> The exact population, region and name of the state can be obtained upon hovering over each bubble. </li>
+  </ul>
+  <p style ="font-size:18px"> Moderate functionality </p>
+  <p style ="font-size:15px"> Scatter plot matrix </p>
+
+  <ul>
+    <li> The second graph shows a scatter plot matrix of Income, Life Expectancy, Illiteracy and percentage of High School Graduates across
+      different states in the US .</li>
+    <li> The plot is color coded according to different regions. Color coding of the previous graph is followed here.</li>
+    <li> A brushing feature is added on this graph. This feature lets you choose a particular set of points with a sweep of the mousepad and all corresponding points across the entire scatter plot matrix is highlighted.</li>
+
+  </ul>
+  <p style ="font-size:18px"> Advanced functionality </p>
+  <p style ="font-size:15px"> Parallel coordinates </p>
+
+  <ul>
+    <li> The third graph is a parallel coordinate plot of data related to the 50 states of the United States of America. The numerical coordinates represent features like income, population, area, illiteracy, life expectancy, number of murders, frost, area and frost level per state. </li>
+    <li> A brushing feature is added to the coordinates. </p>
+    <li> The lines are color coded according to region. </p>
+
+
+  </li>
+  </ul>
+
+<h1>Discussion</h1>
+
+  <p> This D3 visualization analyses US census income data for 50 states in the US. It starts with a simple bubble chart between life expectancy and income color coded by region. The colors highlight a difference in Income and Life Expectancy across the different regions. The name of the State, Region and population of the state can be obtained by hovering over the bubbles. The size of the bubbles represent population at each state. At this level we can see a distinct difference in these values across regions. To drill down further a scatter plot matrix of illiteracy, murder rates, high school graduation rates and income is plotted. The scatter plot matrix also points towards a distinctive pattern across regions. A brushing feature is added to this plot. Using a click of the mousepad, points corresponding to a single region can be highlighted. For further analysis a parallel coordinate plot is obtained and it is color coded by region.  From the parallel coordinate plot, it becomes evident that regions with low income has high illiteracy rate and murder rates as seen in the southern region.<h10><a href="https://raw.githubusercontent.com/alicebenzi/information_visualization/gh-pages/homework1.html">here.</a></h10>
+  </p>
+</div>
+
