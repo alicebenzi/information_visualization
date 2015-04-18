@@ -6,12 +6,12 @@ body {
   font: 10px sans-serif;
 }
 
-./*axis path,
+.axis path,
 .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
-}*/
+}
 
 .dot {
   stroke: #000;
@@ -26,35 +26,39 @@ body {
 
 </style>
 <body>
+<div id="chart1"></div>
+<div id="chart2"></div>
+<div id="chart3"></div>
+</body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
 
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+var margin1 = {top: 20, right: 20, bottom: 30, left: 40},
+    width1 = 960 - margin1.left - margin1.right,
+    height1 = 500 - margin1.top - margin1.bottom;
 
-var x = d3.scale.linear()
-    .range([0, width]);
+var x1 = d3.scale.linear()
+    .range([0, width1]);
 
-var y = d3.scale.linear()
-    .range([height, 0]);
+var y1 = d3.scale.linear()
+    .range([height1, 0]);
 
-var color = d3.scale.category20();
+var color1 = d3.scale.category20();
 
-var xAxis = d3.svg.axis()
-    .scale(x)
+var xAxis1 = d3.svg.axis()
+    .scale(x1)
     .orient("bottom");
 
-var yAxis = d3.svg.axis()
-    .scale(y)
+var yAxis1 = d3.svg.axis()
+    .scale(y1)
     .orient("left");
 
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+var svg1 = d3.select("#chart1").append("svg")
+    .attr("width", width1 + margin1.left + margin1.right)
+    .attr("height", height1 + margin1.top + margin1.bottom)
   .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.bottom + ")");
+    .attr("transform", "translate(" + margin1.left + "," + margin1.bottom + ")");
 
 var tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
@@ -66,23 +70,23 @@ d3.csv("state.x77.csv", function(error, data) {
     d.Income = +d.Income;
   });
 
-  x.domain(d3.extent(data, function(d) { return d.lifeExp; })).nice();
-  y.domain(d3.extent(data, function(d) { return d.Income; })).nice();
+  x1.domain(d3.extent(data, function(d) { return d.lifeExp; })).nice();
+  y1.domain(d3.extent(data, function(d) { return d.Income; })).nice();
 
-  svg.append("g")
+  svg1.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis)
+      .attr("transform", "translate(0," + height1 + ")")
+      .call(xAxis1)
     .append("text")
       .attr("class", "label")
-      .attr("x", width)
+      .attr("x", width1)
       .attr("y", -6)
       .style("text-anchor", "end")
       .text("Life Expectancy");
 
-  svg.append("g")
+  svg1.append("g")
       .attr("class", "y axis")
-      .call(yAxis)
+      .call(yAxis1)
     .append("text")
       .attr("class", "label")
       .attr("transform", "rotate(-90)")
@@ -91,7 +95,7 @@ d3.csv("state.x77.csv", function(error, data) {
       .style("text-anchor", "end")
       .text("Income")
 
-  svg.selectAll(".dot")
+  svg1.selectAll(".dot")
       .data(data)
     .enter().append("circle")
       .attr("class", "dot")
@@ -99,7 +103,7 @@ d3.csv("state.x77.csv", function(error, data) {
       .attr("r", function(d){ return Math.sqrt(d["Population"]/25);})
       .attr("cx", function(d) { return x(d.lifeExp); })
       .attr("cy", function(d) { return y(d.Income); })
-      .style("fill", function(d) { return color(d["state.region"]); })
+      .style("fill", function(d) { return color1(d["state.region"]); })
       .on("mouseover", function(d) {
           tooltip.transition()
                .duration(200)
@@ -116,19 +120,19 @@ d3.csv("state.x77.csv", function(error, data) {
       });
 
   var legend = svg.selectAll(".legend")
-      .data(color.domain())
+      .data(color1.domain())
     .enter().append("g")
       .attr("class", "legend")
       .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
   legend.append("rect")
-      .attr("x", width - 18)
+      .attr("x", width1 - 18)
       .attr("width", 18)
       .attr("height", 18)
-      .style("fill", color);
+      .style("fill", color1);
 
   legend.append("text")
-      .attr("x", width - 24)
+      .attr("x", width1 - 24)
       .attr("y", 9)
       .attr("dy", ".35em")
       .style("text-anchor", "end")
@@ -137,7 +141,376 @@ d3.csv("state.x77.csv", function(error, data) {
 });
 
 </script>
+<style>
+
+/*svg {
+  font: 10px sans-serif;
+}
+
+.background path {
+  fill: none;
+  stroke: #ccc;
+  stroke-opacity: .4;
+  shape-rendering: crispEdges;
+}
+
+.foreground path {
+  fill: none;
+  stroke: steelblue;
+  stroke-opacity: .7;
+}
+
+.brush .extent {
+  fill-opacity: .3;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  text-shadow: 0 1px 0 #fff;
+  cursor: move;
+}
+
+</style>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+var m = [30, 10, 10, 10],
+    w = 960 - m[1] - m[3],
+    h = 500 - m[0] - m[2];
+
+var x = d3.scale.ordinal().rangePoints([0, w], 1),
+    y = {},
+    dragging = {};
+
+var line = d3.svg.line(),
+    axis = d3.svg.axis().orient("left"),
+    background,
+    foreground;
+
+var svg = d3.select("#chart2").append("svg")
+    .attr("width", w + m[1] + m[3])
+    .attr("height", h + m[0] + m[2])
+  .append("g")
+    .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+
+d3.csv("state.x77.csv", function(error, data) {
+
+  // Extract the list of dimensions and create a scale for each.
+  x.domain(dimensions = d3.keys(data[0]).filter(function(d) {
+    return d != "state.name"  && d != "state.abb" && d != "state.region" && d != "state.division" && (y[d] = d3.scale.linear()
+        .domain(d3.extent(data, function(p) { return +p[d]; }))
+        .range([h, 0]));
+  }));
+
+  // Add grey background lines for context.
+  background = svg.append("g")
+      .attr("class", "background")
+    .selectAll("path")
+      .data(data)
+    .enter().append("path")
+      .attr("d", path);
+
+  // Add blue foreground lines for focus.
+  foreground = svg.append("g")
+      .attr("class", "foreground")
+    .selectAll("path")
+      .data(data)
+    .enter().append("path")
+      .attr("d", path);
+
+  // Add a group element for each dimension.
+  var g = svg.selectAll(".dimension")
+      .data(dimensions)
+    .enter().append("g")
+      .attr("class", "dimension")
+      .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+      .call(d3.behavior.drag()
+        .on("dragstart", function(d) {
+          dragging[d] = this.__origin__ = x(d);
+          background.attr("visibility", "hidden");
+        })
+        .on("drag", function(d) {
+          dragging[d] = Math.min(w, Math.max(0, this.__origin__ += d3.event.dx));
+          foreground.attr("d", path);
+          dimensions.sort(function(a, b) { return position(a) - position(b); });
+          x.domain(dimensions);
+          g.attr("transform", function(d) { return "translate(" + position(d) + ")"; })
+        })
+        .on("dragend", function(d) {
+          delete this.__origin__;
+          delete dragging[d];
+          transition(d3.select(this)).attr("transform", "translate(" + x(d) + ")");
+          transition(foreground)
+              .attr("d", path);
+          background
+              .attr("d", path)
+              .transition()
+              .delay(50)
+              .duration(0)
+              .attr("visibility", null);
+        }));
+
+  // Add an axis and title.
+  g.append("g")
+      .attr("class", "axis")
+      .each(function(d) { d3.select(this).call(axis.scale(y[d])); })
+    .append("text")
+      .attr("text-anchor", "middle")
+      .attr("y", -9)
+      .text(String);
+
+  // Add and store a brush for each axis.
+  g.append("g")
+      .attr("class", "brush")
+      .each(function(d) { d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", brushstart).on("brush", brush)); })
+    .selectAll("rect")
+      .attr("x", -8)
+      .attr("width", 16);
+});
+
+function position(d) {
+  var v = dragging[d];
+  return v == null ? x(d) : v;
+}
+
+function transition(g) {
+  return g.transition().duration(500);
+}
+
+// Returns the path for a given data point.
+function path(d) {
+  return line(dimensions.map(function(p) { return [position(p), y[p](d[p])]; }));
+}
+
+// When brushing, don’t trigger axis dragging.
+function brushstart() {
+  d3.event.sourceEvent.stopPropagation();
+}
+
+// Handles a brush event, toggling the display of foreground lines.
+function brush() {
+  var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
+      extents = actives.map(function(p) { return y[p].brush.extent(); });
+  foreground.style("display", function(d) {
+    return actives.every(function(p, i) {
+      return extents[i][0] <= d[p] && d[p] <= extents[i][1];
+    }) ? null : "none";
+  });
+}
 
 
 
+</script>
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
 
+svg {
+  font: 10px sans-serif;
+  padding: 10px;
+}
+
+.axis,
+.frame {
+  shape-rendering: crispEdges;
+}
+
+.axis line {
+  stroke: #ddd;
+}
+
+.axis path {
+  display: none;
+}
+
+.frame {
+  fill: none;
+  stroke: #aaa;
+}
+
+circle {
+  fill-opacity: .7;
+}
+
+circle.hidden {
+  fill: #ccc !important;
+}
+
+.extent {
+  fill: #000;
+  fill-opacity: .125;
+  stroke: #fff;
+}
+
+</style>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+var width = 980,
+    size = 180,
+    padding = 25.5;
+
+var x = d3.scale.linear()
+    .range([padding / 2, size - padding / 2]);
+
+var y = d3.scale.linear()
+    .range([size - padding / 2, padding / 2]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+    .ticks(5);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(5);
+
+var color = d3.scale.category10();
+
+d3.csv("state.x77.csv", function(error, data) {
+  var inputMatrix = {},
+      inputs = d3.keys(data[0]).filter(function(d) { return d === "Income" || d === "Illiteracy" || d === "Life.Exp" || d === "HS.Grad"; }),
+      n = inputs.length;
+
+  inputs.forEach(function(inputs) {
+    inputMatrix[inputs] = d3.extent(data, function(d) { return d[inputs]; });
+  });
+
+  xAxis.tickSize(size*n)
+  .tickFormat(d3.format(",.2s"));;
+  yAxis.tickSize( -size*n)
+  .tickFormat(d3.format(",.2s"));;
+
+  var brush = d3.svg.brush()
+      .x(x)
+      .y(y)
+      .on("brushstart", brushstart)
+      .on("brush", brushmove)
+      .on("brushend", brushend);
+
+  var svg = d3.select("#chart3").append("svg")
+      .attr("width", size * n + padding)
+      .attr("height", size * n + padding)
+    .append("g")
+      .attr("transform", "translate(" + padding + "," + padding / 2 + ")");
+
+  svg.selectAll(".x.axis")
+      .data(inputs)
+    .enter().append("g")
+      .attr("class", "x axis")
+      .attr("transform", function(d, i) { return "translate(" + (n - i - 1) * size + ",0)"; })
+      .each(function(d) { x.domain(inputMatrix[d]); d3.select(this).call(xAxis); });
+      // .attr("transform", function(d) {
+      //           return "rotate(90)" 
+      //           });
+
+  svg.selectAll(".y.axis")
+      .data(inputs)
+    .enter().append("g")
+      .attr("class", "y axis")
+      .attr("transform", function(d, i) { return "translate(0," + i * size + ")"; })
+      .each(function(d) { y.domain(inputMatrix[d]); d3.select(this).call(yAxis); });
+
+  var legend = svg.selectAll(".legend")
+      .data(color.domain())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", size + padding/2)
+      .attr("width", 10)
+      .attr("height", 10)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", size -180)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+
+
+  var cell = svg.selectAll(".cell")
+      .data(cross(inputs, inputs))
+    .enter().append("g")
+      .attr("class", "cell")
+      .attr("transform", function(d) { return "translate(" + (n - d.i - 1) * size + "," + d.j * size + ")"; })
+      .each(plot);
+
+  // Titles for the diagonal.
+  cell.filter(function(d) { return d.i === d.j; }).append("text")
+      .attr("x", padding)
+      .attr("y", padding)
+      .attr("dy", ".71em")
+      .text(function(d) { return d.x; });
+
+  cell.call(brush);
+
+  function plot(p) {
+    var cell = d3.select(this);
+
+    x.domain(inputMatrix[p.x]);
+    y.domain(inputMatrix[p.y]);
+
+    cell.append("rect")
+        .attr("class", "frame")
+        .attr("x", padding / 2)
+        .attr("y", padding / 2)
+        .attr("width", size - padding)
+        .attr("height", size - padding);
+
+    cell.selectAll("circle")
+        .data(data)
+      .enter().append("circle")
+        .attr("cx", function(d) { return x(d[p.x]); })
+        .attr("cy", function(d) { return y(d[p.y]); })
+        .attr("r", 3)
+        .style("fill", function(d) { return color(d["state.region"]); });
+  }
+
+  var brushCell;
+
+  // Clear the previously-active brush, if any.
+  function brushstart(p) {
+    if (brushCell !== this) {
+      d3.select(brushCell).call(brush.clear());
+      x.domain(inputMatrix[p.x]);
+      y.domain(inputMatrix[p.y]);
+      brushCell = this;
+    }
+  }
+
+  // Highlight the selected circles.
+  function brushmove(p) {
+    var e = brush.extent();
+    svg.selectAll("circle").classed("hidden", function(d) {
+      return e[0][0] > d[p.x] || d[p.x] > e[1][0]
+          || e[0][1] > d[p.y] || d[p.y] > e[1][1];
+    });
+  }
+
+  // If the brush is empty, select all circles.
+  function brushend() {
+    if (brush.empty()) svg.selectAll(".hidden").classed("hidden", false);
+  }
+
+  function cross(a, b) {
+    var c = [], n = a.length, m = b.length, i, j;
+    for (i = -1; ++i < n;) for (j = -1; ++j < m;) c.push({x: a[i], i: i, y: b[j], j: j});
+    return c;
+  }
+
+  d3.select(self.frameElement).style("height", size * n + padding + 20 + "px");
+});
+
+</script>*/
