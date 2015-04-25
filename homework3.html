@@ -176,7 +176,7 @@ d3.csv("seatbelts.csv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Deaths");
+      .text("Accidents");
 
       svg.append("text")
         .attr("x", 0-(height)/10 )             
@@ -284,14 +284,14 @@ function plot2(){
          .attr("dy", ".91em")
          .attr("x",0-(height)/12)
          .style("text-anchor", "middle")
-         .text("Deaths");
+         .text("Accidents");
 svg.append("text")
         .attr("x", 0-(height)/200 - 25)             
         .attr("y", -15)
         // .attr("text-anchor", "middle")  
         .style("font-size", "25px") 
         // .style("text-decoration", "underline")  
-        .text("Line Plot with tooltip");
+        .text("Line plot of drivers involved in accidents (with tooltip)");
 
   var lineSvg = svg.append("g"); 
 
@@ -314,7 +314,8 @@ svg.append("text")
       // Add the valueline path.
       lineSvg.append("path")
           .attr("class", "line")
-          .attr("d", valueline(data));
+          .attr("d", valueline(data))
+          //.text("drivers");
 
       // Add the X Axis
       svg.append("g")
@@ -344,6 +345,7 @@ svg.append("text")
           .style("opacity", 0.5)
           .attr("x1", width)
           .attr("x2", width);
+          //.text("Drivers");
 
       // append the circle at the intersection
       focus.append("circle")
@@ -520,14 +522,14 @@ svg.append("text")
          .attr("dy", ".91em")
          .attr("x",0-(height)/5)
          .style("text-anchor", "middle")
-         .text("Deaths");
+         .text("Accidents");
 svg.append("text")
         .attr("x", 0-(height)/200 + 20)             
         .attr("y", 20)
         // .attr("text-anchor", "middle")  
         .style("font-size", "25px") 
         // .style("text-decoration", "underline")  
-        .text("Area Chart");
+        .text("Area chart of drivers involved in accidents");
 
 
 
