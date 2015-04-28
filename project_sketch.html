@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>MSAN 622 Information Visualization</title>
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+<style type="text/css">
+    body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+</style>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+
+<!-- Fixed Navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">MSN 622</a>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/information_visualization/#homework">Homework</a></li>
+                <li><a href="/information_visualization/#project">Project</a></li>
+                <li><a href="/information_visualization/#participation">Participation</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/information_visualization/#about">About</a></li>
+                <li><a href="/information_visualization/#contact">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>Project Sketch</h2>
+
+       
+    </div>
+</div>
+
+
+<div class="container">
+
+
+
+<h3>Planned Tools</h3>
+
+  <ul>
+    <li> The data set contains 11 quality related factors that determine the quality score pertaining to red and white variants of the Portuguese "Vinho Verde" wine.</li>
+    <li> I plan to use D3 for my final visualisation.</li>
+    <li> I plan to use Python (pandas dataframe) or R to cleanse the data, deal with missing values, aggregate/scale data if necessary for the various plots.</li>
+  </ul>
+  
+  <h3>Planned Techniques</h3>
+
+  <ul>
+    <li>Scatterplot matrix - I plan to obtain a scatter plot matrix of quality score plus all the 11 variables to see interactions between variables. There will be separate scatter plot matrices for both the Red and White variants. A scatter plot matrix should give me a sense of the variables that deem important for each of the variables to obtain a quality score. The points will be color coded according to the variables.
+    </li>
+    <li>Parallel coordinate plot - A parallel coordinate plot will also be obtained. The plot will include both the variants and I plan to have different colors (red and golden if suitable) for the red and white variants. This will help distinguish the factors that improve the quality of red wine vs that of white. For the parallel coordinate plot, I will include only those variables that help discover a pattern between red and white. The variables will be decided based on the scatterplot matrix and trying different variations of the parallel coordinate plot.
+    </li>
+
+    <li>Small multiple bar charts - For each of the 11 variables, small multiple bar plots will be obtained. There will be 11 small multiple bars per variant. I plan to have red and white variants side by side. For example, the variable "residual sugar" will have a bar corresponding to each quality score i.e. for how much residual sugar did white wines with quality score 1 contain on an average.
+    </li>
+  </ul>
+
+<h3>Planned Interaction</h3>
+  <ul>
+    <li>Scatterplot matrix - I plan to implement brushing here that will help choose a variable and look for its trends. I will try to link the interactions across the scatterplot matrices of the two variables.</li>
+    <li>Parallel coordinate plot - I plan to implement brushing here again. The brushed area will be highlighted which will help filtering patterns as well </li>
+    <li>Small multiple bar charts- When hovered on any of the bars, bars of that particular quality score will be highlighted across all multiples. A tool tip with details on the percentage quantity will also show up on hovering </li>
+
+
+  </ul>
+<h3>Planned Interface</h3>
+  <ul>
+    <li>Scatterplot matrix - I plan to implement brushing here that will help choose a variable and look for its trends. I will try to link the interactions across the scatterplot matrices of the two variables.</li>
+    <li>Parallel coordinate plot - I plan to implement brushing here again. The brushed area will be highlighted which will help filtering patterns as well </li>
+    <li>Small multiple bar charts- When hovered on any of the bars, bars of that particular quality score will be highlighted across all multiples. A tool tip with details on the percentage quantity will also show up on hovering </li>
+
+
+  </ul>
+
+
+</div>
