@@ -128,7 +128,7 @@ function symbolMap() {
         // draw symbols
        var color = d3.scale.linear()
         .domain([0, 20])
-        .range(["white", "orangered"])
+        .range(["yellow", "orangered"])
         .interpolate(d3.interpolateLab);
 
         // var g = svg.append("g");
