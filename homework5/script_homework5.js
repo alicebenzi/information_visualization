@@ -118,6 +118,9 @@ function symbolMap() {
         //     .classed({"state": true});
 
         // draw symbols
+        var color = d3.scale.threshold()
+    .domain([30, 60, 120, 360])
+    .range(["#ffffcc","#c2e699","#78c679","#31a354","#006837"]);
         symbols.selectAll("circle")
             .data(values)
             .enter()
@@ -134,6 +137,7 @@ function symbolMap() {
                 return projection([d.longitude, d.latitude])[1];
             })
             .classed({"symbol": true})
+            .attr("fill",function(d){ return color(d.mag);})
             .on("mouseover", showHighlight)
             .on("mouseout", hideHighlight);
     }
