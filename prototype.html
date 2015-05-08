@@ -1,0 +1,365 @@
+<meta charset="utf-8">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>MSAN 622 Information Visualization</title>
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="css/bootstrap-theme.min.css" rel="stylesheet"> -->
+
+<style type="text/css">
+    body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+</style>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+
+<!-- Fixed Navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">MSN 622</a>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/information_visualization/#homework">Homework</a></li>
+                <li><a href="/information_visualization/#project">Project</a></li>
+                <li><a href="/information_visualization/#participation">Participation</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/information_visualization/#about">About</a></li>
+                <li><a href="/information_visualization/#contact">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>Project Prototype</h2>
+        <h4>Alice Priyanka Benziger</h4>
+
+       
+    </div>
+</div>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!-- <title>Learning SVG</title> -->
+
+    <!-- load D3 and TopoJSON //-->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+
+</head>
+
+<body>
+<!-- placeholder SVGs //-->
+
+<div class="container">
+<h3>Project Dataset</h3>
+
+  <!-- <p style ="font-size:18px"> Basic functionality </p>
+  <p style ="font-size:15px"> Line and Area plots </p> -->
+<p>
+  The data set contains quality related factors pertaining to red and white variants of the Portuguese "Vinho Verde" wine. There are 11 factors namely, fixed acitidity, volatile acidity, citric acid content, residual sugar, chlorides, free sulphur dioxide, total sulphur dioxide, density, pH, sulphate content and alcohol. There is a final variable called quality that gives a quality score (ranging from 0-10) for different combinations of the 11 variables mentioned. The red wine variant has 1599 rows with quality scores varying from 3 - 8. A majority of the data points were concentrated around scores 5 & 6. Since the data is highly unbalanced, the quality is further grouped as Low (scores <= 4), Medium (scores 5 & 6) and High (scores >=7). After grouping, there are 217 data points for "High", 63 for "Low" and 1319 for "Medium". The imbalance in dataset is resolved by bootstrapping the data set to have equal number of data points for each of the categories. Data pertaining to the white wine variant is not included in this visualisation as no interesting patterns emerge out of this dataset. So I decided to concentrate on the red variant. To avoid having a high data density visualisation, the number of samples from each of the categories were reduced to 150 data points each. More details about the project dataset can be found <h10><a href="http://alicebenzi.github.io/information_visualization/project_dataset.html">here.</a></h10>
+</p>
+<h3>Sketch Summary</h3>
+<p>
+  The visualisation included in this dataset is a scatterplot matrix of 5 features namely citric acid concentration, residual sugar, density, pH and sulphates. An initial prototype in Tableau and a scatterplot matrix with all other variables in the dataset proved that only these 5 variables are helpful in exhibiting some distintion between the 3 quality categories. The scatterplot matrix is obtained to look for interaction effects between the variables and to get a better sense of the combined effect of the different variables in categorizing the quality of wine. Following the scatter plot matrix will be parallel coordinate plots with the 5 variables to visualize the level of combinations of these variables that would create an impact. And finally small multiple plots for each of the 11 variables will be obtained. A brushing is added to the scatterplot matrix to help choose a particular category across all plots.
+
+</p>
+
+<h3>Visualization</h3>
+ 
+
+
+ 
+</div>
+
+<div id="final">
+<svg id="plot1" class="small"></svg>
+
+<svg id="plot2" class="small"></svg>
+<!-- <svg id="plot3" class="small" width="200" height="200"></svg> -->
+</div>
+<style>
+
+
+
+body {
+    background-color: white;
+    font: 12px
+    sans-serif;
+    margin: 8px;
+}
+
+div#block {
+    max-width: 950px;
+}
+
+svg {
+    background-color: white;
+    margin: 1px;
+    float: left;
+}
+
+
+
+.outline {
+    stroke: black;
+    stroke-width: 1px;
+}
+svg#plot1 svg {
+  font: 6px sans-serif;
+  padding: 10px;
+}
+
+svg#plot1 .axis,
+svg#plot1 .frame {
+  shape-rendering: crispEdges;
+}
+
+/*svg#plot1 .legend circle {
+                  fill-opacity: 1;
+                }
+svg#plot1 .legend text {
+font-size: 12px;
+font-style: oblique;
+}*/
+
+svg#plot1 .axis line {
+  stroke: #ddd;
+}
+
+svg#plot1 .axis path {
+  display: none;
+}
+
+svg#plot1 .frame {
+  fill: none;
+  stroke: #aaa;
+}
+
+svg#plot1 circle {
+  fill-opacity: 1;
+}
+
+svg#plot1 circle.hidden {
+  fill: #ccc !important;
+}
+
+svg#plot1 .extent {
+  fill: #000;
+  fill-opacity: .125;
+  stroke: #fff;
+}
+
+#plot1 .legend circle {
+                  fill-opacity: 1;
+                }
+#plot1 .legend text {
+font-size: 12px;
+font-style: oblique;
+}
+
+
+
+
+
+</style>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+function plot1(){
+
+  var //width = 960,
+    size = 200,
+    padding = 32.5;
+
+    var x = d3.scale.linear()
+        .range([padding / 2, size - padding / 2]);
+        x.nice();
+
+    var y = d3.scale.linear()
+        .range([size - padding / 2, padding / 2]);
+        y.nice();
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom")
+        .ticks(5);
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .ticks(5);
+
+    var color = d3.scale.ordinal().range(["#f03b20","#31a354","#feb24c"]);
+
+    d3.csv("red_wines.csv", function(error, data) {
+    var domainByTrait = {},
+      traits = d3.keys(data[0]).filter(function(d) { return d !== "quality" && d !== 'alcohol'; }); //&& d !== 'fixed.acidity' && d !== 'free.sulfur.dioxide' && d !== 'density' && d !== 'sulphates' && d !== 'citric.acid' && d !== 'chlorides'; }),
+      n = traits.length;
+
+  traits.forEach(function(trait) {
+    domainByTrait[trait] = d3.extent(data, function(d) { return d[trait]; });
+  });
+
+    xAxis.tickSize(size * n)
+    .tickFormat(d3.format(",.3f"));
+    yAxis.tickSize(-size * n)
+    //.tickFormat(d3.format(",."));
+
+    var brush = d3.svg.brush()
+          .x(x)
+          .y(y)
+          .on("brushstart", brushstart)
+          .on("brush", brushmove)
+          .on("brushend", brushend);
+
+    var svg = d3.select("#plot1")
+          .attr("width", size * n + 8*padding)
+          .attr("height", size * n + padding)
+        .append("g")
+          .attr("transform", "translate(" + padding + "," + padding / 2 + ")");
+
+
+   
+
+    var legend = svg.selectAll(".legend")
+                          //.data(color.domain().slice().reverse())
+                          .data(["Low", "Medium", "High"])
+                          .enter().append("g")
+                          .attr("class", "legend")
+                          .attr("transform", function(d, i) { return "translate(1000," +   (i *20 +300) + ")"; });
+                     /*legend.append("svg:circle")
+                            .attr("r", 6)*/
+                    legend.append("rect")
+                          .attr("class", String)
+                          .attr("x2", 20)
+                          .attr("width",18)
+                          .attr("height",18)
+                          .style("fill", color);//function(d) {return color(d.quality);});
+                     legend.append("text")
+                          .attr("x", 20)
+                          .attr("dy", "1em")
+                          //.text(["High", "Medium", "Low"])
+                          .text(function(d) {return d;});
+
+      svg.selectAll(".x.axis")
+          .data(traits)
+        .enter().append("g")
+          .attr("class", "x axis")
+          .attr("transform", function(d, i) { return "translate(" + (n - i - 1) * size + ",0)"; })
+          .each(function(d) { x.domain(domainByTrait[d]); d3.select(this).call(xAxis); });
+
+      svg.selectAll(".y.axis")
+          .data(traits)
+        .enter().append("g")
+          .attr("class", "y axis")
+          .attr("transform", function(d, i) { return "translate(0," + i * size + ")"; })
+          .each(function(d) { y.domain(domainByTrait[d]); d3.select(this).call(yAxis); });
+
+      var cell = svg.selectAll(".cell")
+          .data(cross(traits, traits))
+        .enter().append("g")
+          .attr("class", "cell")
+          .attr("transform", function(d) { return "translate(" + (n - d.i - 1) * size + "," + d.j * size + ")"; })
+          .each(plot);
+
+      // Titles for the diagonal.
+      cell.filter(function(d) { return d.i === d.j; }).append("text")
+          .attr("x", padding)
+          .attr("y", padding)
+          .attr("dy", ".71em")
+          .text(function(d) { return d.x; });
+
+      
+      
+      // console.log(legend)
+
+      cell.call(brush);
+
+      function plot(p) {
+        var cell = d3.select(this);
+
+        x.domain(domainByTrait[p.x]);
+        y.domain(domainByTrait[p.y]);
+
+        cell.append("rect")
+            .attr("class", "frame")
+            .attr("x", padding / 2)
+            .attr("y", padding / 2)
+            .attr("width", size - padding)
+            .attr("height", size - padding);
+
+        cell.selectAll("circle")
+            .data(data)
+          .enter().append("circle")
+            .attr("cx", function(d) { return x(d[p.x]); })
+            .attr("cy", function(d) { return y(d[p.y]); })
+            .attr("r", 3)
+            .style("fill", function(d) { return color(d.quality); });
+      }
+
+      var brushCell;
+
+      // Clear the previously-active brush, if any.
+      function brushstart(p) {
+        if (brushCell !== this) {
+          d3.select(brushCell).call(brush.clear());
+          x.domain(domainByTrait[p.x]);
+          y.domain(domainByTrait[p.y]);
+          brushCell = this;
+        }
+      }
+
+      // Highlight the selected circles.
+      function brushmove(p) {
+        var e = brush.extent();
+        svg.selectAll("circle").classed("hidden", function(d) {
+          return e[0][0] > d[p.x] || d[p.x] > e[1][0]
+              || e[0][1] > d[p.y] || d[p.y] > e[1][1];
+        });
+      }
+
+      // If the brush is empty, select all circles.
+      function brushend() {
+        if (brush.empty()) svg.selectAll(".hidden").classed("hidden", false);
+      }
+
+      function cross(a, b) {
+        var c = [], n = a.length, m = b.length, i, j;
+        for (i = -1; ++i < n;) for (j = -1; ++j < m;) c.push({x: a[i], i: i, y: b[j], j: j});
+        return c;
+      }
+
+      d3.select(self.frameElement).style("height", size * n + padding + 20 + "px"); });
+
+
+}
+plot1();
+</script>
