@@ -43,9 +43,9 @@ svg {
     fill: royalblue;
     fill-opacity: 0.25;
 
-    stroke: royalblue;
+    stroke: blue;
     stroke-width: 1px;
-    stroke-opacity: 1.0;
+    stroke-opacity: .5;
 }
 
 /*

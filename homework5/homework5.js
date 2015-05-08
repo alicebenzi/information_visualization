@@ -42,6 +42,9 @@ function symbolMap() {
     var width = 960,
         height = 960;
 
+    
+
+
     var projection = d3.geo.mercator()
     .scale((width+1)/2/Math.PI)
     .translate([width/2,height/2])
@@ -66,9 +69,14 @@ function symbolMap() {
 
         updateLog("Drawing map... please wait.");
 
+        var zoom = d3.behavior.zoom()
+        .scaleExtent([1, 8])
+        .on("zoom", zoomed);
+
         var svg = d3.select("svg#" + id);
         var bbox = svg.node().getBoundingClientRect();
 
+        
         // update project scale
         // (this may need to be customized for different projections)
         // projection = projection.scale(bbox.width);
@@ -118,12 +126,17 @@ function symbolMap() {
         //     .classed({"state": true});
 
         // draw symbols
-        var color = d3.scale.threshold()
-    .domain([30, 60, 120, 360])
-    .range(["#ffffcc","#c2e699","#78c679","#31a354","#006837"]);
+       var color = d3.scale.linear()
+        .domain([0, 20])
+        .range(["white", "orangered"])
+        .interpolate(d3.interpolateLab);
+
+        // var g = svg.append("g");
+
         symbols.selectAll("circle")
             .data(values)
             .enter()
+            // .enter().extent("g")
             .append("circle")
             .attr("r", function(d, i) {
                 return radius(value(d));
@@ -137,10 +150,25 @@ function symbolMap() {
                 return projection([d.longitude, d.latitude])[1];
             })
             .classed({"symbol": true})
-            // .attr("fill",function(d){ return color(d.mag);})
+            .style("fill",function(d){ return color(d.depth);})
             .on("mouseover", showHighlight)
             .on("mouseout", hideHighlight);
+
+            svg
+            .call(zoom)
+            .call(zoom.event);
+
+
+            function zoomed() {
+                world.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+
+                symbols.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        }
     }
+    
+    //  function zoomed() {
+    //     .attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    // }
 
     /*
      * These are functions for getting and setting values.

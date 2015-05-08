@@ -12,14 +12,59 @@
 
     <!-- load custom CSS and JavaScript //-->
     <link rel="stylesheet" href="style.css">
-    <script src="script_homework5.js"></script>
+    <script src="homework5.js"></script>
 
  </head>
+<body>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-theme.min.css" rel="stylesheet">
+<style type="text/css">
+    body {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+</style>
 
+<!-- Fixed Navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">MSN 622</a>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/information_visualization/#homework">Homework</a></li>
+                <li><a href="/information_visualization/#project">Project</a></li>
+                <li><a href="/information_visualization/#participation">Participation</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/information_visualization/#about">About</a></li>
+                <li><a href="/information_visualization/#contact">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="jumbotron">
+    <div class="container">
+        <h2>Homework 5: Earthquake Visualisation</h2>
+        <h4>Alice Priyanka Benziger</h4>
+
+       
+    </div>
+</div>
 <body>
 
 <div id="block">
-<svg id="map" width="940" height="480"></svg>
+<svg id="map" width="1020" height="480"></svg>
 <p id="log">Loading map... please wait.</p>
 </div>
 
