@@ -308,7 +308,7 @@ function symbolMap() {
         console.log(d);
         console.log("dhdhsds")
         updateLog( "An earthquake of depth " + d.depth  +
-            " and magnitude  " + d.mag + " occured at latitude " + d.latitude + " and longitude " +d.longitude);
+            " and magnitude  " + d.mag + " occured at latitude " + d.latitude + " and longitude " +d.longitude+" (Time : " +d.time +" )");
     }
 
     // called on mouseout

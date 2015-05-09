@@ -122,32 +122,25 @@ d3.json(url.world, function(mapError, mapJSON) {
 <h1>Functionality</h1>
 
   <p style ="font-size:18px"> Basic functionality </p>
-  <p style ="font-size:15px"> Line and Area plots </p>
   <ul>
-    <li> I started visualising data using a multi-series line chart with the total number accidents involving drivers, front and rear seat passengers. </li>
-    <li> The multi-series line chart shows drivers dominating the accident numbers.</li>
-    <li> From this point, I focussed only on driver related accidents. I obtained a single line plot for the number of accidents involving drivers over the years</li>
-    <li> Also obtained an area chart with the number of drivers involved in accidents over the years. </li>
+    <li> A map of the world with earthquakes projected as circles on the latitudes and logitudes at which it occurred. The size of circle represents the magnitude of the earthquake. When hovered over the circles, the exact latitude and longitude, and details like depth and magnitude are displayed below.</li>
   </ul>
   <p style ="font-size:18px"> Moderate functionality </p>
-  <p style ="font-size:15px"> Panning and Tooltips added </p>
 
   <ul>
-    <li> A tooltip is added to the single line plot. Upon hovering over the line, a tooltip pops up with the exact x and y axis details.</li>
-    <li> A panning feature is added to the area plot. For this a sub chart is obtained below the area plot. Brush over the subplot and scroll the brushed area with the mouse to obtain the panning feature </li>
+    <li> The circles are colored according to the depth of the earthquake. Colors increase in intensity from yellow to deep red as the depth of the quake increases.</li>
 
   </ul>
   <p style ="font-size:18px"> Advanced functionality </p>
-  <p style ="font-size:15px"> Brushing </p>
-
+  
   <ul>
-    <li> A sub area plot is added on the area chart. Brushing over the sub chart below displays the selected portion on the main chart. </li>
+    <li> A zooming and panning function is implemented. </li>
   </li>
   </ul>
 
-<h1>Data preprocessing & Discussion</h1>
+<h1>Interactivity</h1>
 
-  <p> This D3 visualization analyzes the Seatbelts dataset available in R. It is a time series object in R that describes the number of accidents involving drivers, front and rear seat passengers, the number of deaths of both car and van drivers before and after a law making seatbelts compulsory in the UK. The data set also contains information like petrol prices and kilometers travelled on road each year on a monthly basis. Data is available from 1969 to 1985. Since the data frame was a time series object in R, exporting it to a csv directly would chop off the year and month details. The data set had to be preprocessed first by using time()(rounded off) and cycle() functions to obtained the year and months respectively. The time and year thus obtained had to be pasted to get date in a format "%Y%m" (Ex 197012 for Dec 1970). This is then exported in a csv to be visualised in d3. I used three main plots to visualise the data. I started visualising the number of accidents involving drivers, front and rear seat passengers on a multi-series line plot. From this plot, accidents involving drivers were higher compared to passengers. Hence focussed further on drivers involved in accidents. I used basic area and line charts to plot the accidents involving drivers. Both the area and line plot shows a decrease in accidents after the law making seatbelts strict was released. A tooltip feature is added on the line plot that gives the exact date and the number of accidents at a point in time upon hovering. A brushing and panning feature is added on to area chart. The brush feature helps focus on a small area of the plot helping to drill information down to months. A panning feature is also added on the are plot that helps to select a subregion and pan across. For implementation details, please over the <h10><a href="https://github.com/alicebenzi/information_visualization/blob/gh-pages/homework3.html">source code.</a></h10>
+  <p> This is a visualization of the latest earthquakes that happened around the world. Hovering over the earthquake spots will reveal more information about the earthquake namely the latitude and longitude, time of occurrence, magnitude and depth. The intensity of color increases with the depth of the earthquake and scrolling over the mousepad helps to zoom over the map. Panning can be done by clicking and dragging using the mousepad.<h10><a href="https://github.com/alicebenzi/information_visualization/blob/gh-pages/homework5/homework5.html">source code.</a></h10>
   </p>
 </div>
 
